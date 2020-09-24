@@ -273,8 +273,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 552ed0a9ba1429248904ee231e330e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rcsThrust: 150
-  mainThrust: 100
+  rcsThrust: 250
+  mainThrust: 1000
+  levelLoadDelay: 2
   mainEngine: {fileID: 8300000, guid: c62b5b1f2dec2c34f853462009891909, type: 3}
   explosionSound: {fileID: 8300000, guid: 86981636e79f9334cb2bc3bb774543cd, type: 3}
   victorySound: {fileID: 8300000, guid: 0d1affb0c96269542ab1326d44e86167, type: 3}

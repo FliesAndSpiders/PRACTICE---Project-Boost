@@ -10,12 +10,14 @@ public class Rocket : MonoBehaviour
     AudioSource rocketSound;
     [SerializeField] float rcsThrust = 150f;
     [SerializeField] float mainThrust = 150f;
+    [SerializeField] float levelLoadDelay = 2f;
     [SerializeField] AudioClip mainEngine;
     [SerializeField] AudioClip explosionSound;
     [SerializeField] AudioClip victorySound;
     [SerializeField] ParticleSystem engineParticles;
     [SerializeField] ParticleSystem successParticles;
     [SerializeField] ParticleSystem defeatParticles;
+    
     enum State { Alive, Dying, Transcending}
     State currentState = State.Alive;
     // Start is called before the first frame update
@@ -53,7 +55,7 @@ public class Rocket : MonoBehaviour
                 successParticles.Play();
                 rocketSound.Stop();
                 rocketSound.PlayOneShot(victorySound);
-                Invoke("LoadNextScene", 1f);
+                Invoke("LoadNextScene", levelLoadDelay);
                 break;
             default:
                 //die
@@ -61,7 +63,7 @@ public class Rocket : MonoBehaviour
                 defeatParticles.Play();
                 rocketSound.Stop();
                 rocketSound.PlayOneShot(explosionSound);
-                Invoke("LoadFirstScene", 1.0f);
+                Invoke("LoadFirstScene", levelLoadDelay);
                 break;
         }
     }
