@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System;
 
 public class Rocket : MonoBehaviour
 {
 
     Rigidbody rocketBody;
     AudioSource rocketSound;
+    [SerializeField] bool collisionsEnabled = true;
     [SerializeField] float rcsThrust = 150f;
     [SerializeField] float mainThrust = 150f;
     [SerializeField] float levelLoadDelay = 2f;
@@ -35,11 +37,27 @@ public class Rocket : MonoBehaviour
             Thrust();
             Rotate();
         }
+        if (Debug.isDebugBuild)
+        {
+            RespondToDebugKeys();
+        }
+    }
+
+    private void RespondToDebugKeys()
+    {
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            LoadNextScene();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            collisionsEnabled = !collisionsEnabled;
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (currentState != State.Alive)
+        if (currentState != State.Alive || !collisionsEnabled)
         {
             return;
         }
@@ -76,8 +94,16 @@ public class Rocket : MonoBehaviour
 
     private void LoadNextScene()
     {
+        int currentSceneIndex = SceneManager.GetActiveScene().buildIndex;
         currentState = State.Alive;
-        SceneManager.LoadScene(1);
+        if (currentSceneIndex == SceneManager.sceneCountInBuildSettings - 1)
+        {
+            LoadFirstScene();
+        }
+        else
+        {
+            SceneManager.LoadScene(currentSceneIndex + 1);
+        }
     }
 
     private void Rotate()
